@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HomilApp.Views.LoginPage"
+             BackgroundColor="#76A6DE"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" TextColor="White" Text="Homil App" HorizontalTextAlignment="Center" Padding="0,80,0,0" FontSize="60"></Label>
+            <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="10">
+                <Entry Placeholder="Nombre de usuario" x:Name="txtUsername" Text="{Binding UserName}" TextColor="white"></Entry>
+                <Entry Placeholder="Contraseña" IsPassword="True" x:Name="txtPassword" Text="{Binding Password}" TextColor="white"></Entry>
+                <Button CornerRadius="10" BackgroundColor="white" Text="Login" TextColor="#76A6DE"  Command="{Binding AutenticateUser}"></Button>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

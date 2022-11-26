@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:carptaViews="clr-namespace:HomilApp.Views"  
+             NavigationPage.HasNavigationBar="false"
+             x:Class="HomilApp.MainPage">
+    <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
+        <ShellContent  ContentTemplate="{DataTemplate carptaViews:LoginPage}">
+        </ShellContent>
+    </ShellItem>
+    
+    <FlyoutItem Title="Menu" Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="PrincipalPage" Icon="ic_action_home.png" Title="Inicio" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:PrincipalPage}">
+        </ShellContent>
+        <ShellContent Route="Disponibilidad" Icon="ic_action_account_box.png" Title="Disponibilidad de citas" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:DisponibilidadPage}">
+        </ShellContent>
+    </FlyoutItem>
+    <MenuItem Text="Salir"
+          IconImageSource="ic_action_logout.png"
+          Clicked="Logout"
+          />
+</Shell>

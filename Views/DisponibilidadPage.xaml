@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HomilApp.Views.DisponibilidadPage"
+             Title="Consultar Disponibilidad">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="10">
+                <Label Text="Fecha inicial:" />
+                <DatePicker Format="yyyy-MM-dd" MinimumDate="{Binding MinDate}" Date="{Binding FechaInicial}" TextColor="black"></DatePicker>
+                <Label Text="Especialidad:" />
+                <Entry Placeholder="" Text="{Binding Especialidad}" TextColor="black"></Entry>
+                <Label Text="Actividad:" />
+                <Entry Placeholder="" Text="{Binding Actividad}" TextColor="black"></Entry>
+                <Button CornerRadius="10" BackgroundColor="#76A6DE" Text="Consultar" TextColor="white"  Command="{Binding ConsDisponibilidad}"></Button>
+            </StackLayout>
+            <!--<Frame Grid.Row="2" CornerRadius="10"  BorderColor="LightGreen"  Padding="0" Margin="10" IsVisible="{Binding EsVisible}">
+                <StackLayout  VerticalOptions="Center" Margin="10" BackgroundColor="LightGreen" Padding="20">
+                    <Label Text="{Binding PrimerNombre}" TextColor="black"></Label>
+                    <Label Text="{Binding SegundoNombre}" TextColor="black"></Label>
+                    <Label Text="{Binding PrimerApellido}" TextColor="black"></Label>
+                    <Label Text="{Binding SegundoApellido}" TextColor="black"></Label>
+                    <Label Text="{Binding Estado}" TextColor="black"></Label>
+                </StackLayout>
+            </Frame>-->
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
