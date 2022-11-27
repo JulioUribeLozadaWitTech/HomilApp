@@ -45,6 +45,10 @@
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "dependencies": {
+            "Acr.UserDialogs": {
+              "target": "Package",
+              "version": "[7.2.0.564, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",
@@ -53,7 +57,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[13.0.1, )"
+              "version": "[13.0.2, )"
             },
             "RestSharp": {
               "target": "Package",
@@ -66,6 +70,10 @@
             "Xamarin.Forms": {
               "target": "Package",
               "version": "[5.0.0.2515, )"
+            },
+            "Xamarin.Forms.PancakeView": {
+              "target": "Package",
+              "version": "[2.3.0.759, )"
             }
           },
           "imports": [

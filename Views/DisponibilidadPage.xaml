@@ -1,33 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="HomilApp.Views.DisponibilidadPage"
              Title="Consultar Disponibilidad">
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="10">
-                <Label Text="Fecha inicial:" />
-                <DatePicker Format="yyyy-MM-dd" MinimumDate="{Binding MinDate}" Date="{Binding FechaInicial}" TextColor="black"></DatePicker>
-                <Label Text="Especialidad:" />
-                <Entry Placeholder="" Text="{Binding Especialidad}" TextColor="black"></Entry>
-                <Label Text="Actividad:" />
-                <Entry Placeholder="" Text="{Binding Actividad}" TextColor="black"></Entry>
-                <Button CornerRadius="10" BackgroundColor="#76A6DE" Text="Consultar" TextColor="white"  Command="{Binding ConsDisponibilidad}"></Button>
-            </StackLayout>
-            <!--<Frame Grid.Row="2" CornerRadius="10"  BorderColor="LightGreen"  Padding="0" Margin="10" IsVisible="{Binding EsVisible}">
-                <StackLayout  VerticalOptions="Center" Margin="10" BackgroundColor="LightGreen" Padding="20">
-                    <Label Text="{Binding PrimerNombre}" TextColor="black"></Label>
-                    <Label Text="{Binding SegundoNombre}" TextColor="black"></Label>
-                    <Label Text="{Binding PrimerApellido}" TextColor="black"></Label>
-                    <Label Text="{Binding SegundoApellido}" TextColor="black"></Label>
-                    <Label Text="{Binding Estado}" TextColor="black"></Label>
-                </StackLayout>
-            </Frame>-->
-        </Grid>
+        <StackLayout Margin="10">
+            <Label Text="Fecha inicial:" />
+            <DatePicker Format="yyyy-MM-dd" MinimumDate="{Binding MinDate}" Date="{Binding FechaInicial}" TextColor="black"></DatePicker>
+            <Label Text="Especialidad:" />
+            <Picker x:Name="EspecialidadPiker" ItemDisplayBinding="{Binding nombre}" Title="Selecciona una especialidad"   TextColor="black" SelectedIndexChanged="EspecialidadPiker_SelectedIndexChanged" >
+            </Picker>
+            <Label Text="Actividad:" />
+            <Picker x:Name="ActividadPiker" ItemDisplayBinding="{Binding nombre}" Title="Selecciona una actividad" SelectedIndexChanged="ActividadPiker_SelectedIndexChanged"  ></Picker>
+            <Button CornerRadius="10" BackgroundColor="#76A6DE" Text="Consultar" TextColor="white"  Command="{Binding ConsultarDisponibilidad}"></Button>
+            <Label  Text="Resultados:" TextColor="black" FontSize="20" IsVisible="{Binding IsVisible}"></Label>
+            <ListView
+                x:Name="ListaTurnos"
+                ItemsSource="{Binding ListTurnosDisponibles}"
+                RowHeight="160"
+                IsVisible="{Binding IsVisible}"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="0" Margin="5" HorizontalOptions="Center">
+                                <Grid Padding="0" Margin="0" RowSpacing="0" ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="150" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <pancakeview:PancakeView Margin="0,0,0,0" Padding="10,10,0,10"  Grid.Row="0" Grid.Column="0" BackgroundColor="#76A6DE" CornerRadius="5,0,5,0" >
+                                        <StackLayout>
+                                            <Label  Text="Fecha:" TextColor="white"></Label>
+                                            <Label  Text="Medico:" TextColor="white"></Label>
+                                            <Label  Text="Especialidad:" TextColor="white"></Label>
+                                            <Label  Text="Lugar:" TextColor="white"></Label>
+                                        </StackLayout>
+                                    </pancakeview:PancakeView>
+                                    <pancakeview:PancakeView Margin="0,0,0,0" Padding="5,10,10,10" Grid.Row="0" Grid.Column="1" BackgroundColor="white" CornerRadius="0,5,0,5" Border="{pancakeview:BorderMarkup Color=#76A6DE, Thickness='1'}" >
+                                        <StackLayout>
+                                            <Label Text="{Binding Fecha, StringFormat='{0:yyyy-MM-dd h:mm tt }'}" TextColor="black"></Label>
+                                            <Label  Text="{Binding Medico}" TextColor="black"></Label>
+                                            <Label  Text="{Binding Especialidad}" TextColor="black"></Label>
+                                            <Label  Text="{Binding CentroAtencion}" TextColor="black"></Label>
+                                            <Button HeightRequest="28" FontSize="12" Padding="0" Margin="0" BackgroundColor="#76A6DE" Text="Asignar" TextColor="white" ></Button>
+                                        </StackLayout>
+                                    </pancakeview:PancakeView>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

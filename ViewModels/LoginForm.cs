@@ -1,4 +1,6 @@
-﻿using HomilApp.Service;
+﻿using Acr.UserDialogs;
+using HomilApp.Models;
+using HomilApp.Service;
 using HomilApp.Views;
 using Newtonsoft.Json;
 using System;
@@ -14,9 +16,9 @@ using System.Xml.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace HomilApp.Models
+namespace HomilApp.ViewModels
 {
-    internal class LoginForm: INotifyPropertyChanged
+    internal class LoginForm : INotifyPropertyChanged
     {
         private string userName;
         private string password;
@@ -33,8 +35,10 @@ namespace HomilApp.Models
         }
         private async Task autenticateUser()
         {
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password)) {
-                await Application.Current.MainPage.DisplayAlert("Error","Usuario o contraseña no validos.","Acceptar");
+            UserDialogs.Instance.ShowLoading("Verificando...");
+            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña no validos.", "Acceptar");
             }
             else
             {
@@ -43,8 +47,9 @@ namespace HomilApp.Models
                 if (listPacientes.Where(item => item.Identificacion == UserName && item.Password == Password).Count() > 0)
                 {
                     bool valido = await validateUser(listPacientes.First(item => item.Identificacion == UserName && item.Password == Password));
-                    if (!valido) {
-                        await Application.Current.MainPage.DisplayAlert("Error", "No es un paciente valido.", "Acceptar");
+                    if (!valido)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "No es un paciente activo en HOMIL por favor contactarse con la entidad.", "Acceptar");
                     }
                     else
                     {
@@ -53,19 +58,18 @@ namespace HomilApp.Models
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Usuario o contraseña incorrecta.", "Acceptar");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Usuario no se encuentra registrado en el HOMIL por favor identificarse con un usuario valido.", "Acceptar");
                 }
             }
+            UserDialogs.Instance.HideLoading();
         }
-        public string UserName { get => userName; set  { userName = value; OnPropertyChanged("Username"); } }
-        public string Password { get => password; set  { password = value; OnPropertyChanged("Password"); } }
+        public string UserName { get => userName; set { userName = value; OnPropertyChanged("Username"); } }
+        public string Password { get => password; set { password = value; OnPropertyChanged("Password"); } }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public INavigation Navigation { get; set; }
-
-        private void OnPropertyChanged([CallerMemberName] String propertyName = "")
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -78,12 +82,12 @@ namespace HomilApp.Models
             {
                 await SecureStorage.SetAsync("AccessToken", response.value);
                 responseValidPaciente responseValPacSaludsis = await homilClient.executeRequestGet<responseValidPaciente>("/ApiSis/Autorizaciones/verificarPaciente", $"documento={paciente.Identificacion}&tipoDocumento={paciente.TipoIdentificacion}");
-                if ((responseValPacSaludsis != null && responseValPacSaludsis.PrimerNombre == null) || responseValPacSaludsis == null)
+                if (responseValPacSaludsis != null && responseValPacSaludsis.PrimerNombre == null || responseValPacSaludsis == null)
                 {
                     return false;
                 }
                 responseValidHomil responseValPacHomil = await homilClient.executeRequestGet<responseValidHomil>("/HospitalMilitar/CitasMedicas/validarPaciente", $"documento={paciente.Identificacion}&tipoDocumento={paciente.TipoIdentificacion}");
-                if ((responseValPacHomil != null && responseValPacHomil.estado == 0) || responseValPacHomil == null)
+                if (responseValPacHomil != null && responseValPacHomil.estado == 0 || responseValPacHomil == null)
                 {
                     return false;
                 }
@@ -100,7 +104,7 @@ namespace HomilApp.Models
 
     internal class responseAuth
     {
-        public string  value { get; set; }
+        public string value { get; set; }
         public int statusCode { get; set; }
         public string contentType { get; set; }
     }

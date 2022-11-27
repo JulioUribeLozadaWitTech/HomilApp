@@ -6,20 +6,28 @@
              mc:Ignorable="d"
              xmlns:carptaViews="clr-namespace:HomilApp.Views"  
              NavigationPage.HasNavigationBar="false"
+             Shell.BackgroundColor="#76A6DE"
              x:Class="HomilApp.MainPage">
     <ShellItem Route="LoginPage" FlyoutItemIsVisible="False">
         <ShellContent  ContentTemplate="{DataTemplate carptaViews:LoginPage}">
         </ShellContent>
     </ShellItem>
-    
-    <FlyoutItem Title="Menu" Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Route="PrincipalPage" Icon="ic_action_home.png" Title="Inicio" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:PrincipalPage}">
+    <FlyoutItem Shell.TabBarIsVisible="False" Shell.TabBarBackgroundColor="Beige" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="PrincipalPage" Title="Inicio" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:PrincipalPage}">
+            <ShellContent.Icon>
+                <FontImageSource Color="black" FontFamily="MDI" Glyph="{StaticResource IconHome}"></FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Route="Disponibilidad" Icon="ic_action_account_box.png" Title="Disponibilidad de citas" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:DisponibilidadPage}">
+    </FlyoutItem>
+    <FlyoutItem Shell.TabBarIsVisible="False" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Disponibilidad" Title="Disponibilidad de citas" IsTabStop="True" ContentTemplate="{DataTemplate carptaViews:DisponibilidadPage}">
+            <ShellContent.Icon>
+                <FontImageSource Color="black" FontFamily="MDI" Glyph="{StaticResource IconCalendar}"></FontImageSource>
+            </ShellContent.Icon>
         </ShellContent>
     </FlyoutItem>
     <MenuItem Text="Salir"
-          IconImageSource="ic_action_logout.png"
-          Clicked="Logout"
-          />
+              Clicked="ToolbarItem_Clicked" 
+                  IconImageSource="ic_action_logout.png"
+                  />
 </Shell>

@@ -18,11 +18,10 @@ namespace HomilApp
             InitializeComponent();
         }
 
-        private void Logout(object sender, EventArgs e)
+        private void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             SecureStorage.RemoveAll();
             Application.Current.MainPage = new MainPage();
-            //await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
     }
 }
