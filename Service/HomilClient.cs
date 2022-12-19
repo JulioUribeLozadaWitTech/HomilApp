@@ -12,17 +12,18 @@ namespace HomilApp.Service
     internal class HomilClient
     {
         Uri urlBase = new Uri("http://104.208.216.173:8083");
+        Uri urlBase2 = new Uri("http://104.208.216.173:8084");
         string token;
         public  HomilClient()
         {
 
         }
         
-        public async Task<T> executeRequestGet<T>(string url, string stParams)
+        public async Task<T> executeRequestGet<T>(string url, string stParams , int tipo = 0)
         {
             token = await SecureStorage.GetAsync("AccessToken");
             string requestUri = url + "?";
-            var options = new RestClientOptions(urlBase);
+            var options = new RestClientOptions(tipo ==0 ? urlBase : urlBase2);
             var client = new RestClient(options);
             RestRequest requestMessage = new RestRequest($"{requestUri}{stParams}", Method.Get) { Timeout = -1 };
             if (token != "") {
@@ -43,11 +44,11 @@ namespace HomilApp.Service
                 return default(T);
             }
         }
-        public async Task<T> executeRequestPost<T>(string url, string stParams, string token = "")
+        public async Task<T> executeRequestPost<T>(string url, string stParams, int tipo = 0)
         {
             token = await SecureStorage.GetAsync("AccessToken");
             var client = new HttpClient();
-            client.BaseAddress = urlBase;
+            client.BaseAddress = tipo == 0 ? urlBase : urlBase2;
             if (token != "")
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);

@@ -18,88 +18,133 @@ namespace HomilApp.ViewModels
 {
     internal class ConsDisponibilidad : INotifyPropertyChanged
     {
-        private DateTime fechaInicial;
+        private DateTime fechaInicial = DateTime.Now;
         private int especialidad;
-        private int actividad;
+        private int profecional;
         private bool isVisible;
+        private bool isVisibleProfecional;
         public ICommand ConsultarDisponibilidad { get; set; }
+        public ICommand ConsultarProfecionales { get; set; }
 
         HomilClient homilClient = new HomilClient();
 
         private ObservableCollection<TurnosDisponibles> listTurnosDisponibles { get; set; }
 
+        private ObservableCollection<EspecialidadItem> listEspecialidades { get; set; }
 
+        private ObservableCollection<ProfecionalItem> listProfecionales { get; set; }
 
-        public List<TurnosDisponibles> listDisponibilidad = new List<TurnosDisponibles>() {
-                new TurnosDisponibles() {  TurnoId = 1111111 , Fecha = DateTime.Now.AddDays(10) , EspecialidadId = 1 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 11112311 , Fecha = DateTime.Now.AddDays(5) , EspecialidadId = 1 ,  CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 11145511 , Fecha = DateTime.Now.AddDays(20) , EspecialidadId = 2 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 1166111 , Fecha = DateTime.Now.AddDays(12) , EspecialidadId = 2 ,  CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(13) , EspecialidadId = 3 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(7) , EspecialidadId = 3 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(5) , EspecialidadId = 4 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(4) , EspecialidadId = 5 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(15) , EspecialidadId = 6 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(12) , EspecialidadId = 4 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(3) , EspecialidadId = 6 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-                new TurnosDisponibles() {  TurnoId = 7811111 , Fecha = DateTime.Now.AddDays(2) , EspecialidadId = 5 , CentroAtencionId = 1 , CentroAtencion = "Hospital general militar" , MedicoId = 1 , Medico = "Alicia fernandez"},
-        };
-
-        public List<Especialidad> listEspecialidades = new List<Especialidad>() {
-                new Especialidad() { id= 1 , codigo="ESP1" , nombre = "Cardiologia" },
-                new Especialidad() { id= 2 , codigo="ESP2" , nombre = "Cardiologia pediatria" },
-                new Especialidad() { id= 3 , codigo="ESP3" , nombre = "Cirugia cardiovascular" },
-                new Especialidad() { id= 4 , codigo="ESP4" , nombre = "Nefrologia" },
-                new Especialidad() { id= 5 , codigo="ESP5" , nombre = "Oftalmologia" },
-                new Especialidad() { id= 6 , codigo="ESP6" , nombre = "Neurologia" }
-        };
 
         public ConsDisponibilidad()
         {
             IsVisible = false;
-            ListTurnosDisponibles = new ObservableCollection<TurnosDisponibles>();
+            cargarListaEsp();
             ConsultarDisponibilidad = new Command(async () => await consultarDisponibilidad());
+            ConsultarProfecionales = new Command(async () => await consultarProfecional());
         }
 
+        private async Task consultarProfecional()
+        {
+            IsVisibleProfecional = false;
+            UserDialogs.Instance.ShowLoading("Consultando...");
+            if (FechaInicial == null || Especialidad == 0 )
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Campos no validos por favor diligenciar valores correctos.", "Acceptar");
+                IsVisibleProfecional = false;
+            }
+            else
+            {
+                try
+                {
+                    var paramsQuery = $"FechaDesde={FechaInicial.ToString("yyyy-MM-dd")}&FechaHasta={FechaInicial.AddDays(30).ToString("yyyy-MM-dd")}&OIDEspecialidad={Especialidad}";
+                    ResponseHomil<Profecional> responseListProfecionales = await homilClient.executeRequestGet<ResponseHomil<Profecional>>("/Citas/EHR/ListarDisponibilidadProfesional", paramsQuery, 1);
+                    if (responseListProfecionales.sucess)
+                    {
+                        ListProfecionales = new ObservableCollection<ProfecionalItem>(responseListProfecionales.result.profesional);
+                        IsVisibleProfecional = true;
+                        if (ListProfecionales.Count() == 0)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Informacion", "No hay disponibilidad para esta especialidad.", "Acceptar");
+                            IsVisibleProfecional = false;
+                        }
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Algo ocurrio.", "Acceptar");
+                    IsVisibleProfecional = false;
+                }
+                
+            }
+            UserDialogs.Instance.HideLoading();
+        }
         private async Task consultarDisponibilidad()
         {
             UserDialogs.Instance.ShowLoading("Consultando...");
-            if (FechaInicial == null || Especialidad == 0 || Actividad == 0)
+            if (FechaInicial == null || Especialidad == 0 || Profecional == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Campos no validos por favor diligenciar valores correctos.", "Acceptar");
                 IsVisible = false;
             }
             else
             {
-                var json = JsonConvert.SerializeObject(new { FechaInicial, DiasAdicionales = 30, OidEspecialidad = Especialidad, OidActividad = Actividad, OidMedico = 0, OidCentroAtencion = 1, CantidadRegistros = 3 });
-                List<TurnosDisponibles> responseListTurnosDisponibles = await homilClient.executeRequestPost<List<TurnosDisponibles>>("/HospitalMilitar/CitasMedicas/consultarDisponibilidad", json);
-                if (responseListTurnosDisponibles.Count() > 0)
+                try
                 {
-                    ListTurnosDisponibles = new ObservableCollection<TurnosDisponibles>(responseListTurnosDisponibles);
-                }
-                else
-                {
-                    var listDisponibilidadO = listDisponibilidad.Where(item => item.EspecialidadId == Especialidad && DateTime.Compare(FechaInicial, item.Fecha) < 0).Select(item =>
+                    var paramsQuery = $"FechaDesde={FechaInicial.ToString("yyyy-MM-dd")}&FechaHasta={FechaInicial.AddDays(30).ToString("yyyy-MM-dd")}&OIDProfesional={Profecional}";
+                    ResponseHomil<Disponibilidad> responseListTurnosDisponibles = await homilClient.executeRequestGet<ResponseHomil<Disponibilidad>>("/Citas/EHR/ListarDisponibilidadFecha", paramsQuery, 1);
+                    if (responseListTurnosDisponibles.sucess)
                     {
-                        item.Especialidad = listEspecialidades.Find(e => e.id == item.EspecialidadId).nombre;
-                        return item;
-                    }).ToList();
-                    ListTurnosDisponibles = new ObservableCollection<TurnosDisponibles>(listDisponibilidadO);
+                        ListTurnosDisponibles = new ObservableCollection<TurnosDisponibles>(responseListTurnosDisponibles.result.citafecha);
+                        ListTurnosDisponibles = new ObservableCollection<TurnosDisponibles>(ListTurnosDisponibles.Select(item =>
+                        {
+                            item.EspecialidadId = Especialidad;
+                            item.MedicoId = Profecional;
+                            item.Especialidad = ListEspecialidades.Where(v => v.oid == Especialidad).First().geeDescri;
+                            item.Medico = ListProfecionales.Where(v => v.oid == Profecional).First().gmenomcom;
+                            return item;
+                        }).OrderByDescending(item => item.fechaInicial).ToList());
+                        IsVisible = true;
+                        if (ListTurnosDisponibles.Count() == 0)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Informacion", "No hay disponibilidad para esta especialidad.", "Acceptar");
+                            IsVisible = false;
+                        }
+                    }
+                    
                 }
-                IsVisible = true;
+                catch (Exception ex)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Algo ocurrio.", "Acceptar");
+                    IsVisible = false;
+                }
+                
             }
             UserDialogs.Instance.HideLoading();
         }
 
+        private async Task cargarListaEsp()
+        {
+            ResponseHomil<Especialidad> responseListESp = await homilClient.executeRequestGet<ResponseHomil<Especialidad>>("/Citas/EHR/ListarEspecialidades", "" , 1);
+            if (responseListESp.sucess)
+            {
+                ListEspecialidades = new ObservableCollection<EspecialidadItem>(responseListESp.result.especialidad);
+            }
+        }
+
+        public ObservableCollection<ProfecionalItem> ListProfecionales { get => listProfecionales; set { listProfecionales = value; OnPropertyChanged("ListProfecionales"); } }
+        public ObservableCollection<EspecialidadItem> ListEspecialidades { get => listEspecialidades; set { listEspecialidades = value; OnPropertyChanged("ListEspecialidades"); } }
         public ObservableCollection<TurnosDisponibles> ListTurnosDisponibles { get => listTurnosDisponibles; set { listTurnosDisponibles = value; OnPropertyChanged("ListTurnosDisponibles"); } }
-        public DateTime FechaInicial { get => fechaInicial; set { fechaInicial = value; OnPropertyChanged("FechaInicial"); } }
+        public DateTime FechaInicial { get => fechaInicial; set { fechaInicial = value; OnPropertyChanged("FechaInicial"); } } 
         public int Especialidad { get => especialidad; set { especialidad = value; OnPropertyChanged("Especialidad"); } }
 
-        public int Actividad { get => actividad; set { actividad = value; OnPropertyChanged("Actividad"); } }
+        public int Profecional { get => profecional; set { profecional = value; OnPropertyChanged("Profecional"); } }
 
         public DateTime MinDate { get; set; } = DateTime.Now;
 
         public bool IsVisible { get => isVisible; set { isVisible = value; OnPropertyChanged("IsVisible"); } }
+
+        public bool IsVisibleProfecional { get => isVisibleProfecional; set { isVisibleProfecional = value; OnPropertyChanged("IsVisibleProfecional"); } }
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName = "")

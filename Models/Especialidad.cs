@@ -6,8 +6,11 @@ namespace HomilApp.Models
 {
     public class Especialidad
     {
-        public string codigo { get; set; }
-        public string nombre { get; set; }
-        public int id { get; set; }
+        public List<EspecialidadItem> especialidad { get; set; }
+    }
+    public class EspecialidadItem
+    {
+        public string geeDescri { get; set; }
+        public int oid { get; set; }
     }
 }

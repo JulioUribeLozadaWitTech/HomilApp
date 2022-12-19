@@ -4,15 +4,16 @@ using System.Text;
 
 namespace HomilApp.Models
 {
-    internal class TurnosDisponibles
+    public class Disponibilidad
     {
-        public int Row { get; set; }
-        public int TurnoId { get; set; }
-        public int CentroAtencionId { get; set; }
-        public string CentroAtencion { get; set; }
+        public List<TurnosDisponibles> citafecha { get; set; }
+    }
+    public class TurnosDisponibles
+    {
+        public int oidTurno { get; set; }
         public int EspecialidadId { get; set; }
         public string Especialidad { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime fechaInicial { get; set; }
         public int MedicoId { get; set; }
         public string Medico { get; set; }
     }

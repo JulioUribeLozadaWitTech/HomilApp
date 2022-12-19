@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HomilApp.App">
     <Application.Resources>
+        <Style Class="FlyoutItemLabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="#004884" />
+        </Style>
         <ResourceDictionary>
+            
             <x:String x:Key="IconVectorSquare">&#xf0001;</x:String>
             <x:String x:Key="IconAccessPointNetwork">&#xf0002;</x:String>
             <x:String x:Key="IconAccessPoint">&#xf0003;</x:String>

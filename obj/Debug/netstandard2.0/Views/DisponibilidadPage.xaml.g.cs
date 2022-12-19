@@ -20,7 +20,7 @@ namespace HomilApp.Views {
         private global::Xamarin.Forms.Picker EspecialidadPiker;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::Xamarin.Forms.Picker ActividadPiker;
+        private global::Xamarin.Forms.Picker ProfecionalPiker;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::Xamarin.Forms.ListView ListaTurnos;
@@ -29,7 +29,7 @@ namespace HomilApp.Views {
         private void InitializeComponent() {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(DisponibilidadPage));
             EspecialidadPiker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "EspecialidadPiker");
-            ActividadPiker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "ActividadPiker");
+            ProfecionalPiker = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Picker>(this, "ProfecionalPiker");
             ListaTurnos = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ListView>(this, "ListaTurnos");
         }
     }

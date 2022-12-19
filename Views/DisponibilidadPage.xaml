@@ -6,13 +6,13 @@
     <ContentPage.Content>
         <StackLayout Margin="10">
             <Label Text="Fecha inicial:" />
-            <DatePicker Format="yyyy-MM-dd" MinimumDate="{Binding MinDate}" Date="{Binding FechaInicial}" TextColor="black"></DatePicker>
+            <DatePicker Format="yyyy-MM-dd" Date="{Binding FechaInicial}" TextColor="black"></DatePicker>
             <Label Text="Especialidad:" />
-            <Picker x:Name="EspecialidadPiker" ItemDisplayBinding="{Binding nombre}" Title="Selecciona una especialidad"   TextColor="black" SelectedIndexChanged="EspecialidadPiker_SelectedIndexChanged" >
+            <Picker x:Name="EspecialidadPiker" ItemDisplayBinding="{Binding geeDescri}" Title="Selecciona una especialidad"  ItemsSource="{Binding ListEspecialidades}"  TextColor="black" SelectedIndexChanged="EspecialidadPiker_SelectedIndexChanged" >
             </Picker>
-            <Label Text="Actividad:" />
-            <Picker x:Name="ActividadPiker" ItemDisplayBinding="{Binding nombre}" Title="Selecciona una actividad" SelectedIndexChanged="ActividadPiker_SelectedIndexChanged"  ></Picker>
-            <Button CornerRadius="10" BackgroundColor="#76A6DE" Text="Consultar" TextColor="white"  Command="{Binding ConsultarDisponibilidad}"></Button>
+            <Label Text="Profecional:" IsVisible="{Binding IsVisibleProfecional}" />
+            <Picker x:Name="ProfecionalPiker" ItemDisplayBinding="{Binding gmenomcom}" Title="Selecciona un profecional" ItemsSource="{Binding ListProfecionales}" SelectedIndexChanged="ProfecionalPiker_SelectedIndexChanged" IsVisible="{Binding IsVisibleProfecional}"  ></Picker>
+            <Button CornerRadius="10" BackgroundColor="#004884" Text="Consultar" TextColor="white"  Command="{Binding ConsultarDisponibilidad}"></Button>
             <Label  Text="Resultados:" TextColor="black" FontSize="20" IsVisible="{Binding IsVisible}"></Label>
             <ListView
                 x:Name="ListaTurnos"
@@ -32,21 +32,19 @@
                                         <ColumnDefinition Width="120" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <pancakeview:PancakeView Margin="0,0,0,0" Padding="10,10,0,10"  Grid.Row="0" Grid.Column="0" BackgroundColor="#76A6DE" CornerRadius="5,0,5,0" >
+                                    <pancakeview:PancakeView Margin="0,0,0,0" Padding="10,10,0,10"  Grid.Row="0" Grid.Column="0" BackgroundColor="#004884" CornerRadius="5,0,5,0" >
                                         <StackLayout>
                                             <Label  Text="Fecha:" TextColor="white"></Label>
                                             <Label  Text="Medico:" TextColor="white"></Label>
                                             <Label  Text="Especialidad:" TextColor="white"></Label>
-                                            <Label  Text="Lugar:" TextColor="white"></Label>
                                         </StackLayout>
                                     </pancakeview:PancakeView>
                                     <pancakeview:PancakeView Margin="0,0,0,0" Padding="5,10,10,10" Grid.Row="0" Grid.Column="1" BackgroundColor="white" CornerRadius="0,5,0,5" Border="{pancakeview:BorderMarkup Color=#76A6DE, Thickness='1'}" >
                                         <StackLayout>
-                                            <Label Text="{Binding Fecha, StringFormat='{0:yyyy-MM-dd h:mm tt }'}" TextColor="black"></Label>
+                                            <Label Text="{Binding fechaInicial, StringFormat='{0:yyyy-MM-dd h:mm tt }'}" TextColor="black"></Label>
                                             <Label  Text="{Binding Medico}" TextColor="black"></Label>
                                             <Label  Text="{Binding Especialidad}" TextColor="black"></Label>
-                                            <Label  Text="{Binding CentroAtencion}" TextColor="black"></Label>
-                                            <Button HeightRequest="28" FontSize="12" Padding="0" Margin="0" BackgroundColor="#76A6DE" Text="Asignar" TextColor="white" ></Button>
+                                            <Button HeightRequest="28" FontSize="12" Padding="0" Margin="0" BackgroundColor="#004884" Text="Asignar" TextColor="white" ></Button>
                                         </StackLayout>
                                     </pancakeview:PancakeView>
                                 </Grid>

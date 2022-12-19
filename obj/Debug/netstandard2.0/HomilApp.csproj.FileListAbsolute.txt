@@ -16,3 +16,5 @@ D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\refint\HomilApp.dll
 D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\HomilApp.pdb
 D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\ref\HomilApp.dll
 D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\Views\DisponibilidadPage.xaml.g.cs
+D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\Views\AutorizacionPage.xaml.g.cs
+D:\proyectos\HomilApp\HomilApp\obj\Debug\netstandard2.0\Views\LogoutPage.xaml.g.cs
