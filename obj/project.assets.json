@@ -1158,34 +1158,29 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JULIO\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\administrador\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\DISCO\\DESARROLLO\\app\\HOMILApp\\HomilApp\\HomilApp.csproj",
+      "projectUniqueName": "C:\\Developer\\HOMILApp\\HomilApp\\HomilApp.csproj",
       "projectName": "HomilApp",
-      "projectPath": "D:\\DISCO\\DESARROLLO\\app\\HOMILApp\\HomilApp\\HomilApp.csproj",
-      "packagesPath": "C:\\Users\\JULIO\\.nuget\\packages\\",
-      "outputPath": "D:\\DISCO\\DESARROLLO\\app\\HOMILApp\\HomilApp\\obj\\",
+      "projectPath": "C:\\Developer\\HOMILApp\\HomilApp\\HomilApp.csproj",
+      "packagesPath": "C:\\Users\\administrador\\.nuget\\packages\\",
+      "outputPath": "C:\\Developer\\HOMILApp\\HomilApp\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\JULIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Users\\JULIO\\Downloads": {},
-        "https://www.nuget.org/api/v2/": {}
+        "C:\\Developer\\Nutget": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://microsofthealthoss.pkgs.visualstudio.com/FhirServer/_packaging/Public/nuget/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
