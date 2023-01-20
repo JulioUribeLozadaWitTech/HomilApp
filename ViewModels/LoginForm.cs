@@ -28,6 +28,7 @@ namespace HomilApp.ViewModels
 
         public List<Paciente> listPacientes = new List<Paciente>() {
                 new Paciente() { Identificacion = "79575558", TipoIdentificacion = "CC" , PrimerNombre="Paciente" ,PrimerApellido="Prueba" , Password= "79575558"},
+                 new Paciente() { Identificacion = "79653685", TipoIdentificacion = "CC" , PrimerNombre="Paciente" ,PrimerApellido="Prueba" , Password= "79653685"},
         };
         public LoginForm()
         {
@@ -82,16 +83,16 @@ namespace HomilApp.ViewModels
             {
                 await SecureStorage.SetAsync("AccessToken", response.value);
                 responseValidPaciente responseValPacSaludsis = await homilClient.executeRequestGet<responseValidPaciente>("/ApiSis/Autorizaciones/verificarPaciente", $"documento={paciente.Identificacion}&tipoDocumento={paciente.TipoIdentificacion}");
-                if (responseValPacSaludsis != null && responseValPacSaludsis.PrimerNombre == null || responseValPacSaludsis == null)
+                if ((responseValPacSaludsis != null && responseValPacSaludsis.PrimerNombre == null )|| responseValPacSaludsis == null)
                 {
                     return false;
                 }
-                responseValidHomil responseValPacHomil = await homilClient.executeRequestGet<responseValidHomil>("/HospitalMilitar/CitasMedicas/validarPaciente", $"documento={paciente.Identificacion}&tipoDocumento={paciente.TipoIdentificacion}");
-                if (responseValPacHomil != null && responseValPacHomil.estado == 0 || responseValPacHomil == null)
+               /* responseValidHomil responseValPacHomil = await homilClient.executeRequestGet<responseValidHomil>("/HospitalMilitar/CitasMedicas/validarPaciente", $"documento={paciente.Identificacion}&tipoDocumento={paciente.TipoIdentificacion}");
+                if ((responseValPacHomil != null && responseValPacHomil.estado == 0 )|| responseValPacHomil == null)
                 {
                     return false;
                 }
-                paciente.PacienteId = responseValPacHomil.respuesta;
+                paciente.PacienteId = responseValPacHomil.respuesta;*/
                 await SecureStorage.SetAsync("paciente", JsonConvert.SerializeObject(paciente));
                 return true;
             }
